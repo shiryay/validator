@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Check Translation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      input[type="text"] {
+        width: 80%;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      #output {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Paste your text here</h1>
+      <form id="myForm">
+        <input
+          type="text"
+          id="textInput"
+          name="text"
+          placeholder="Paste text"
+        />
+        <button type="button" onclick="handleButtonClick()">Validate</button>
+      </form>
+      <div id="output"></div>
+      <!-- Container for displaying response -->
+    </div>
+
+    <script>
+      function handleButtonClick() {
+        var form = document.getElementById("myForm");
+        var formData = new FormData(form);
+
+        fetch("/submit", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            var outputDiv = document.getElementById("output");
+            outputDiv.textContent = data;
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+    </script>
+  </body>
+</html>
