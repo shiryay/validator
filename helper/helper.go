@@ -78,7 +78,7 @@ func CheckText(text string) string {
 	reportString := ""
 	Rules = LoadRules()
 	for i, _ := range Rules {
-		reportString = CheckRule(Rules, i, text)
+		reportString = reportString + CheckRule(Rules, i, text) + "\n"
 	}
 	return reportString
 }

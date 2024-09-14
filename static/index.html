@@ -14,12 +14,6 @@
         margin: 0 auto;
         text-align: center;
       }
-      input[type="text"] {
-        width: 80%;
-        padding: 10px;
-        margin-bottom: 10px;
-        font-size: 16px;
-      }
       button {
         padding: 10px 20px;
         font-size: 16px;
@@ -36,12 +30,7 @@
     <div class="container">
       <h1>Paste your text here</h1>
       <form id="myForm">
-        <input
-          type="text"
-          id="textInput"
-          name="text"
-          placeholder="Paste text"
-        />
+        <textarea id="text" name="text" rows="30" cols="150"></textarea><br />
         <button type="button" onclick="handleButtonClick()">Validate</button>
       </form>
       <div id="output"></div>

@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-
-	// "net/http"
 	"validator/helper"
 )
 
@@ -30,9 +28,9 @@ func handleSubmit(w http.ResponseWriter, r *http.Request) {
 
 		// Send a response back to the client
 		if inputText != "" {
-			fmt.Fprintf(w, helper.CheckText(inputText))
+			fmt.Fprint(w, helper.CheckText(inputText))
 		} else {
-			fmt.Fprintf(w, "You have to provide the text to check")
+			fmt.Fprint(w, "You have to provide the text to check")
 		}
 	} else {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
