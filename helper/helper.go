@@ -55,7 +55,7 @@ func CheckEndTag(checked string) string {
 	if strings.HasSuffix(checked, "-end of document-") {
 		return ""
 	} else {
-		return "End tag not found!\n"
+		return "Check the end of document tag!\n"
 	}
 }
 
