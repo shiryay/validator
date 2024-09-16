@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os/exec"
+	"runtime"
 	"validator/helper"
 )
 
@@ -16,8 +18,15 @@ func main() {
 	http.HandleFunc("/submit", handleSubmit)
 
 	// Start the server on port 8080
-	fmt.Println("Server started at http://localhost:8080")
-	http.ListenAndServe(":8080", nil)
+	go func() {
+		fmt.Println("Server started at http://localhost:8080")
+		http.ListenAndServe(":8080", nil)
+	}()
+
+	openBrowser("http://localhost:8080")
+
+	// Keep the main goroutine running
+	select {}
 }
 
 // handleSubmit is called when the button is clicked
@@ -34,5 +43,24 @@ func handleSubmit(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+	}
+}
+
+func openBrowser(url string) {
+	var err error
+
+	switch runtime.GOOS {
+	case "linux":
+		err = exec.Command("xdg-open", url).Start()
+	case "windows":
+		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+	case "darwin":
+		err = exec.Command("open", url).Start()
+	default:
+		err = fmt.Errorf("unsupported platform")
+	}
+
+	if err != nil {
+		fmt.Printf("Failed to open browser: %v\n", err)
 	}
 }
