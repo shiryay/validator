@@ -8,8 +8,6 @@ import (
 	"validator/helper"
 )
 
-var rules [][]string
-
 func main() {
 	// Serve static files from the "static" directory
 	http.Handle("/", http.FileServer(http.Dir("./static")))
@@ -18,15 +16,9 @@ func main() {
 	http.HandleFunc("/submit", handleSubmit)
 
 	// Start the server on port 8080
-	go func() {
-		fmt.Println("Server started at http://localhost:8080")
-		http.ListenAndServe(":8080", nil)
-	}()
+	fmt.Println("Server started at http://localhost:8080")
+	http.ListenAndServe(":8080", nil)
 
-	openBrowser("http://localhost:8080")
-
-	// Keep the main goroutine running
-	select {}
 }
 
 // handleSubmit is called when the button is clicked
