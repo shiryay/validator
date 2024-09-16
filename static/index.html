@@ -12,7 +12,7 @@
       .container {
         max-width: 1200px;
         margin: 0 auto;
-        text-align: center;
+        text-align: left;
       }
       button {
         padding: 10px 20px;
@@ -30,10 +30,12 @@
     <div class="container">
       <h1>Paste your text here</h1>
       <form id="myForm">
-        <textarea id="text" name="text" rows="30" cols="150"></textarea><br />
         <button type="button" onclick="handleButtonClick()">Validate</button>
+        <textarea id="text" name="text" rows="30" cols="80"></textarea><br />
+        <textarea id="output" name="output" rows="30" cols="80"></textarea
+        ><br />
       </form>
-      <div id="output"></div>
+      <!-- <div id="output"></div> -->
       <!-- Container for displaying response -->
     </div>
 

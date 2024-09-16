@@ -69,7 +69,7 @@ func CheckRule(rules [][]string, ruleIndex int, checked string) string {
 	stopPhraseRegex = regexp.MustCompile(stopPhrasePattern)
 	matches := stopPhraseRegex.FindAllString(checked, -1)
 	if len(matches) != 0 {
-		returnString = rules[ruleIndex][1] + "\n\t" + strings.Join(matches, "\n\t") + "\n\n"
+		returnString = rules[ruleIndex][1] + "\n\t" + strings.Join(matches, "\n\t") + "\n"
 	}
 	return returnString
 }
@@ -77,8 +77,10 @@ func CheckRule(rules [][]string, ruleIndex int, checked string) string {
 func CheckText(text string) string {
 	reportString := ""
 	Rules = LoadRules()
-	for i, _ := range Rules {
-		reportString = reportString + CheckRule(Rules, i, text) + "\n"
+	reportString += CheckDatesFormat(text)
+	reportString += CheckEndTag(text)
+	for i := range Rules {
+		reportString = reportString + CheckRule(Rules, i, text)
 	}
 	return reportString
 }
