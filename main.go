@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"os/exec"
-	"runtime"
 	"validator/helper"
 )
 
@@ -35,24 +33,5 @@ func handleSubmit(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-	}
-}
-
-func openBrowser(url string) {
-	var err error
-
-	switch runtime.GOOS {
-	case "linux":
-		err = exec.Command("xdg-open", url).Start()
-	case "windows":
-		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
-	case "darwin":
-		err = exec.Command("open", url).Start()
-	default:
-		err = fmt.Errorf("unsupported platform")
-	}
-
-	if err != nil {
-		fmt.Printf("Failed to open browser: %v\n", err)
 	}
 }
