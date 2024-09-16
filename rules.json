@@ -29,7 +29,6 @@
 	  ["further math\\w*", "Use \"advanced mathematics\""],
 	  ["office of (record|records)\\w*", "Use \"office of the registrar\""],
 	  ["polytechnic industrial", "Use \"industrial polytechnic\""],
-	  ["technician\\w*", "Use \"technical diploma\" if it\\'s a degree"],
 	  ["pre-*school", "Use \"early childhood\""],
 	  ["school\\w*", "Use \"faculty\" if it concerns higher education"],
 	  ["Maitre", "Use \"Mr.\""],
