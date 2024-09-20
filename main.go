@@ -3,9 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"validator/processor"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 func main() {
@@ -21,15 +24,47 @@ func main() {
 	if err != nil {
 		fmt.Println("Error parsing flag: ", err)
 	} else if mode == "web" {
-		fmt.Println("Running in web mode")
+		startWebServer()
 	} else if mode == "tg" {
-		fmt.Println("Running as telegram bot")
+		startTgBot()
 	} else {
 		fmt.Println("Unknown mode")
 	}
 }
 
-func setupWebServer() {
+func startTgBot() {
+	bot, err := tgbotapi.NewBotAPI("7841984143:AAGcRRzW1Nsdy4yy6yUvUwgWWVioBgjDf9E")
+	if err != nil {
+		log.Panic(err)
+	}
+
+	bot.Debug = true // Set to true for debugging purposes
+
+	log.Printf("Authorized on account %s", bot.Self.UserName)
+
+	u := tgbotapi.NewUpdate(0)
+	u.Timeout = 60
+
+	updates := bot.GetUpdatesChan(u)
+
+	for update := range updates {
+		if update.Message != nil { // If we got a message
+			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+
+			// Respond to the message
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, processor.CheckText(update.Message.Text))
+			msg.ReplyToMessageID = update.Message.MessageID
+
+			// Send the message
+			_, err := bot.Send(msg)
+			if err != nil {
+				log.Println(err)
+			}
+		}
+	}
+}
+
+func startWebServer() {
 	// Serve static files from the "static" directory
 	http.Handle("/", http.FileServer(http.Dir("./static")))
 
