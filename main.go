@@ -23,11 +23,18 @@ func main() {
 	err := fs.Parse(os.Args[1:])
 	if err != nil {
 		fmt.Println("Error parsing flag: ", err)
-	} else if mode == "web" {
+		return
+	}
+	switch mode {
+	case "web":
 		startWebServer()
-	} else if mode == "tg" {
+	case "tg":
 		startTgBot()
-	} else {
+	case "all":
+		go startWebServer()
+		go startTgBot()
+		select {}
+	default:
 		fmt.Println("Unknown mode")
 	}
 }
