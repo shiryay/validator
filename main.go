@@ -73,13 +73,13 @@ func startTgBot() {
 
 func startWebServer() {
 	// Serve static files from the "static" directory
-	http.Handle("/", http.FileServer(http.Dir("./static")))
+	http.Handle("/", http.FileServer(http.Dir("/home/samsepiol/go/src/validator/static")))
 
 	// Handle the POST request from the button
 	http.HandleFunc("/submit", handleSubmit)
 
 	// Start the server on port 8080
-	fmt.Println("Server started at http://localhost:8080")
+	fmt.Println("Server started on port 8080")
 	http.ListenAndServe(":8080", nil)
 }
 

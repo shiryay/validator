@@ -11,7 +11,7 @@ import (
 
 var Rules [][]string
 
-const RulesFile string = "./rules.json"
+const RulesFile string = "/home/samsepiol/go/src/validator/rules.json"
 
 func check(e error) {
 	if e != nil {
