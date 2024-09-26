@@ -52,7 +52,9 @@ func CheckDatesFormat(checked string) string {
 }
 
 func CheckEndTag(checked string) string {
-	if strings.HasSuffix(strings.TrimRight(checked, "\n"), "-end of document-") {
+	trimmedString := strings.Replace(checked, "\r\n", "", -1)
+	trimmedString = strings.Replace(trimmedString, "\n", "", -1)
+	if strings.HasSuffix(trimmedString, "-end of document-") {
 		return ""
 	} else {
 		return "Check the end of document tag!\n"
