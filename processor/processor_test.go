@@ -20,7 +20,7 @@ func TestLoadRules(t *testing.T) {
 }
 
 func TestCheckEndTagPresent(t *testing.T) {
-	testedText := "THis is a test\n\t02/12\n-end of document-"
+	testedText := "THis is a test\n\t02/12\n-end of document-\n"
 	want := ""
 	got := CheckEndTag(testedText)
 	if want != got {
