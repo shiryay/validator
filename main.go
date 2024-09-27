@@ -80,7 +80,8 @@ func startWebServer() {
 
 	// Start the server on port 8080
 	fmt.Println("Server started on port 8080")
-	http.ListenAndServe(":8080", nil)
+	// http.ListenAndServe(":8080", nil)
+	http.ListenAndServeTLS(":443", "/etc/letsencrypt/live/n0access.freemyip.com/fullchain.pem", "/etc/letsencrypt/live/n0access.freemyip.com/privkey.pem", nil)
 }
 
 // handleSubmit is called when the button is clicked
