@@ -48,5 +48,7 @@
 	  ["labou*r relations", "Use \"employment relations\""],
 	  ["a permission", "Use \"permission\" without article"],
 	  ["\\btill\\b", "Use \"until\""],
-	  ["Civil Status", "Use \"Civil Registry\""]
+	  ["Civil Status", "Use \"Civil Registry\""],
+	  ["applicant\\w*", "Use \"petitioner\" if it is a legal setting"],
+	  ["from.{2,25}to\\b", "Use \"from... until...\" with dates, time, etc."]
 ]
