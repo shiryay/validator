@@ -6,7 +6,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"validator/processor"
+	"validator/stemmer"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -72,11 +74,23 @@ func startTgBot() {
 }
 
 func startWebServer() {
-	// Serve static files from the "static" directory
-	http.Handle("/", http.FileServer(http.Dir("./static")))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/index.html")
+	})
 
 	// Handle the POST request from the button
-	http.HandleFunc("/submit", handleSubmit)
+	// http.HandleFunc("/submit", handleSubmit)
+	http.HandleFunc("/checker", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/checker.html")
+	})
+
+	http.HandleFunc("/check", handleCheck)
+
+	http.HandleFunc("/stemmer", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/stemmer.html")
+	})
+
+	http.HandleFunc("/stem", handleStem)
 
 	// Start the server on port 8080
 	fmt.Println("Server started at http://localhost:8080")
@@ -84,7 +98,7 @@ func startWebServer() {
 }
 
 // handleSubmit is called when the button is clicked
-func handleSubmit(w http.ResponseWriter, r *http.Request) {
+func handleCheck(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		// Read the input text from the POST request
 		inputText := r.FormValue("text")
@@ -94,6 +108,24 @@ func handleSubmit(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprint(w, processor.CheckText(inputText))
 		} else {
 			fmt.Fprint(w, "You have to provide the text to check")
+		}
+	} else {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+	}
+}
+
+func handleStem(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		// Read the input text from the POST request
+		inputText := r.FormValue("text")
+		language := r.FormValue("language")
+		language = strings.ToLower(language)
+
+		// Send a response back to the client
+		if inputText != "" {
+			fmt.Fprint(w, stemmer.StemText(inputText, language))
+		} else {
+			fmt.Fprint(w, "No glossary provided")
 		}
 	} else {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)

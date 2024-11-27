@@ -13,7 +13,7 @@
       }
     </script>
 
-    <title>Translation Checker</title>
+    <title>Translation Tools</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -41,42 +41,8 @@
   </head>
   <body>
     <div class="container">
-      <h1>Translation Checker</h1>
-      <h2>Input</h2>
-      <form id="myForm">
-        <textarea
-          id="text"
-          name="text"
-          rows="30"
-          cols="80"
-          placeholder="Paste or enter the text to check..."
-        ></textarea
-        ><br />
-        <button type="button" onclick="handleButtonClick()">Check</button>
-        <h2>Results:</h2>
-        <textarea id="output" name="output" rows="30" cols="80"></textarea
-        ><br />
-      </form>
-      <!-- <div id="output"></div> -->
-      <!-- Container for displaying response -->
+      <a href="/checker">Translation Checker</a><p>
+      <a href="/stemmer">Glossary Stemmer</a>
     </div>
-
-    <script>
-      function handleButtonClick() {
-        var form = document.getElementById("myForm");
-        var formData = new FormData(form);
-
-        fetch("/submit", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => response.text())
-          .then((data) => {
-            var outputDiv = document.getElementById("output");
-            outputDiv.textContent = data;
-          })
-          .catch((error) => console.error("Error:", error));
-      }
-    </script>
   </body>
 </html>

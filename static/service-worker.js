@@ -4,6 +4,8 @@ self.addEventListener('install', function(event) {
         return cache.addAll([
           '/',
           '/index.html',
+          '/checker.html',
+          '/stemmer.html',
         ]);
       })
     );

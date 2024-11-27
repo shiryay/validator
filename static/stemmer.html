@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="manifest" href="/manifest.json" />
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("/service-worker.js");
+        });
+      }
+    </script>
+
+    <title>Glossary Stemmer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: left;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      textarea {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Glossary Stemmer</h1>
+      <h2>Unstemmed Glossary</h2>
+      <form id="myForm">
+        <textarea
+          id="text"
+          name="text"
+          rows="30"
+          cols="80"
+          placeholder="Paste unstemmed glossary here..."
+        ></textarea>
+
+          <h4>Choose the right language:</h4>
+          <form id="languageForm">
+          <div>
+              <input type="radio" id="russian" name="language" value="Russian" checked onclick="handleLanguageChange()">
+              <label for="russian">Russian</label>
+          </div>
+          <div>
+              <input type="radio" id="english" name="language" value="English" onclick="handleLanguageChange()">
+              <label for="english">English</label>
+          </div>
+
+          </form>
+          <br />
+
+          <button type="button" onclick="handleButtonClick()">Stem</button>
+          <br />
+
+          <h2>Stemmed Glossary</h2>
+          <textarea id="output" name="output" rows="30" cols="80"></textarea
+          ><br />
+      </form>
+    </div>
+
+    <script>
+        function handleLanguageChange() {
+          const selectedLanguage = document.querySelector('input[name="language"]:checked');
+          if (selectedLanguage) {
+              document.getElementById('output').innerText = `Selected Language: ${selectedLanguage.value}`;
+          } else {
+              document.getElementById('output').innerText = 'No language selected.';
+          }
+      }
+
+      function handleButtonClick() {
+          var form = document.getElementById("myForm");
+          var formData = new FormData(form);
+
+          // Add the selected language to the form data
+          const selectedLanguage = document.querySelector('input[name="language"]:checked');
+          if (selectedLanguage) {
+              formData.append("language", selectedLanguage.value);
+          }
+
+          fetch("/stem", {
+              method: "POST",
+              body: formData,
+          })
+          .then((response) => response.text())
+          .then((data) => {
+              var outputDiv = document.getElementById("output");
+              outputDiv.textContent = data; // Display the stemmed result
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+    </script>
+</body>
+</html>

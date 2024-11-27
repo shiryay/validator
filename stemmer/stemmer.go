@@ -1,7 +1,6 @@
 package stemmer
 
 import (
-    "fmt"
     "github.com/kljensen/snowball"
     "strings"
 )
@@ -53,17 +52,21 @@ func stemLineWithTabs(line, language string) (string, error) {
     }
 }
 
-func stemText(text, language string) (string, error) {
+func StemText(text, language string) string {
     sep := "\n" // may need to be different for web, \r\n or something like that
     lines := strings.Split(text, sep)
     newLines := make([]string, 0)
     for _, line := range lines {
         stemmedLine, err := stemLineWithTabs(line, language)
         if err != nil {
-            return "", err
+            return err.Error()
         } else {
             newLines = append(newLines, stemmedLine)
         }
     }
-    return strings.Join(newLines, sep), nil
+    return strings.Join(newLines, sep)
 }
+
+// TODO:
+// 1. Implement removal of cases like "jogger|", i.e. with a pipe at word end
+// 2. Make sure tabs do not appear at the beginning of each line in the resulting text

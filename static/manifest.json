@@ -1,6 +1,6 @@
 {
-    "name": "Translation Checker",
-    "short_name": "Checker",
+    "name": "Translation Tools",
+    "short_name": "Tools",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#fff",
